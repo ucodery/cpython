@@ -1,5 +1,10 @@
-This is Python version 2.7.18
-=============================
+This is Python version 2.7.18.1 created by ActiveState Software
+===============================================================
+As part of a service to our customers, we provide EOL support for Python 2.7 for those organizations who are unable to switch to Python 3. 
+This repo contains patched releases of 2.7.18 to address security vulnerabilities and other critical bugs. 
+Currently, the first release is 2.7.18.1 which addresses a CVE CVE-2020-8492: https://nvd.nist.gov/vuln/detail/CVE-2020-8492 
+
+=====================================
 
 Copyright (c) 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,
 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020 Python Software Foundation.  All
