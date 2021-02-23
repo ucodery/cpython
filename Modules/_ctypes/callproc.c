@@ -486,7 +486,8 @@ PyCArg_repr(PyCArgObject *self)
 #ifdef HAVE_LONG_LONG
     case 'q':
     case 'Q':
-        sprintf(buffer, "<cparam '%c' (%" PY_FORMAT_LONG_LONG "d)>",
+        sprintf(buffer,
+            "<cparam '%c' (%" PY_FORMAT_LONG_LONG "d)>",
             self->tag, self->value.q);
         break;
 #endif
@@ -498,7 +499,6 @@ PyCArg_repr(PyCArgObject *self)
         sprintf(buffer, "<cparam '%c' (%f)>",
             self->tag, self->value.f);
         break;
-    }
 
     case 'c':
         sprintf(buffer, "<cparam '%c' (%c)>",
