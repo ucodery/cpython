@@ -462,6 +462,7 @@ PyCArg_repr(PyCArgObject *self)
 {
     PyObject *f;
     PyObject *r;
+    char *value;
     switch(self->tag) {
     case 'b':
     case 'B':
@@ -497,7 +498,7 @@ PyCArg_repr(PyCArgObject *self)
         if (r == NULL) {
             return NULL;
         }
-        char *value = PyString_AsString(r);
+        value = PyString_AsString(r);
         Py_DECREF(r);
         if (value == NULL) {
             return NULL;
