@@ -31,8 +31,15 @@ def _run_pip(args, additional_paths=None):
         import _winreg
         key = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, r"Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders")
         print("::::DEBUG:::: key={k}, user={u}".format(k=key, u=_winreg.HKEY_CURRENT_USER))
-        directory, _type = _winreg.QueryValueEx(key, "AppData")
-        print("::::DEBUG:::: directory={d}, type={t}".format(d=directory, t=_type))
+        for name in ("AppData", "Common AppData", "Local AppData"):
+            print("::::DEBUG:::: name={n}".format(n=name))
+            try:
+                directory, _type = _winreg.QueryValueEx(key, name)
+            except:
+                print("::::DEBUG:::: NO name")
+                pass
+            else:
+                print("::::DEBUG:::: directory={d}, type={t}".format(d=directory, t=_type))
     except:
         print("::::DEBUG:::: NO _winref")
         pass
