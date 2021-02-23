@@ -488,11 +488,11 @@ PyCArg_repr(PyCArgObject *self)
 #endif
     case 'd':
     case 'f': {
-        PyObject f = PyFloat_FromDouble((self->tag == 'f') ? self->value.f : self->value.d);
+        f = PyFloat_FromDouble((self->tag == 'f') ? self->value.f : self->value.d);
         if (f == NULL) {
             return NULL;
         }
-        PyObject r = PyObject_Repr(f);
+        r = PyObject_Repr(f);
         Py_DECREF(f);
         if (r == NULL) {
             return NULL;
