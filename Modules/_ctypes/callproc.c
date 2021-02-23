@@ -460,6 +460,8 @@ PyCArg_dealloc(PyCArgObject *self)
 static PyObject *
 PyCArg_repr(PyCArgObject *self)
 {
+    PyObject *f = NULL;
+    PyObject *r = NULL;
     switch(self->tag) {
     case 'b':
     case 'B':
