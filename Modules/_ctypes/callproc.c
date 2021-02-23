@@ -460,8 +460,8 @@ PyCArg_dealloc(PyCArgObject *self)
 static PyObject *
 PyCArg_repr(PyCArgObject *self)
 {
-    PyObject *f = NULL;
-    PyObject *r = NULL;
+    PyObject *f;
+    PyObject *r;
     switch(self->tag) {
     case 'b':
     case 'B':
@@ -488,11 +488,11 @@ PyCArg_repr(PyCArgObject *self)
 #endif
     case 'd':
     case 'f': {
-        PyObject *f = PyFloat_FromDouble((self->tag == 'f') ? self->value.f : self->value.d);
+        PyObject f = PyFloat_FromDouble((self->tag == 'f') ? self->value.f : self->value.d);
         if (f == NULL) {
             return NULL;
         }
-        PyObject *r = PyObject_Repr(f);
+        PyObject r = PyObject_Repr(f);
         Py_DECREF(f);
         if (r == NULL) {
             return NULL;
