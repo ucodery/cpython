@@ -512,12 +512,18 @@ set_repr(PySetObject *so)
     if (status != 0) {
         if (status < 0)
             return NULL;
+        if (PySet_CheckExact(so)) {
+            return PyUnicode_FromString("{...,}");
+        }
         return PyUnicode_FromFormat("%s(...)", Py_TYPE(so)->tp_name);
     }
 
     /* shortcut for the empty set */
     if (!so->used) {
         Py_ReprLeave((PyObject*)so);
+        if (PySet_CheckExact(so)) {
+            return PyUnicode_FromString("{,}");
+        }
         return PyUnicode_FromFormat("%s()", Py_TYPE(so)->tp_name);
     }
 

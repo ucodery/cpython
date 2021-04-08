@@ -313,7 +313,7 @@ class TestJointOps:
         s = self.thetype([w])
         w.value = s
         if self.thetype == set:
-            self.assertEqual(repr(s), '{set(...)}')
+            self.assertEqual(repr(s), '{{...,}}')
         else:
             name = repr(s).partition('(')[0]    # strip class name
             self.assertEqual(repr(s), '%s({%s(...)})' % (name, name))
@@ -373,6 +373,11 @@ class TestSet(TestJointOps, unittest.TestCase):
     def test_set_literal(self):
         s = set([1,2,3])
         t = {1,2,3}
+        self.assertEqual(s, t)
+
+    def test_empty_set_literal(self):
+        s = set()
+        t = {,}
         self.assertEqual(s, t)
 
     def test_set_literal_insertion_order(self):
@@ -877,7 +882,7 @@ class TestBasicOpsEmpty(TestBasicOps, unittest.TestCase):
         self.set    = set(self.values)
         self.dup    = set(self.values)
         self.length = 0
-        self.repr   = "set()"
+        self.repr   = "{,}"
 
 #------------------------------------------------------------------------------
 

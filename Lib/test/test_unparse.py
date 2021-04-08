@@ -261,7 +261,7 @@ class UnparseTestCase(ASTTestCase):
     def test_empty_set(self):
         self.assertASTEqual(
             ast.parse(ast.unparse(ast.Set(elts=[]))),
-            ast.parse('{*()}')
+            ast.parse('{,}')
         )
 
     def test_set_comprehension(self):

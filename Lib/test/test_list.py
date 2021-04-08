@@ -54,6 +54,14 @@ class ListTest(list_tests.CommonTest):
     def test_identity(self):
         self.assertTrue([] is not [])
 
+    def test_empty(self):
+        a = list()
+        b = []
+        c = [,]
+        self.assertEqual(a, b)
+        self.assertEqual(b, c)
+        self.assertEqual(a, c)
+
     def test_len(self):
         super().test_len()
         self.assertEqual(len([]), 0)

@@ -187,7 +187,7 @@ class QueryTestCase(unittest.TestCase):
         for simple in (0, 0, 0+0j, 0.0, "", b"", bytearray(),
                        (), tuple2(), tuple3(),
                        [], list2(), list3(),
-                       set(), set2(), set3(),
+                       {,}, set(), set2(), set3(),
                        frozenset(), frozenset2(), frozenset3(),
                        {}, dict2(), dict3(),
                        self.assertTrue, pprint,
@@ -485,7 +485,7 @@ AdvancedNamespace(the=0,
         self.assertEqual(dotted_printer.pformat(o2), exp2)
 
     def test_set_reprs(self):
-        self.assertEqual(pprint.pformat(set()), 'set()')
+        self.assertEqual(pprint.pformat(set()), '{,}')
         self.assertEqual(pprint.pformat(set(range(3))), '{0, 1, 2}')
         self.assertEqual(pprint.pformat(set(range(7)), width=20), '''\
 {0,

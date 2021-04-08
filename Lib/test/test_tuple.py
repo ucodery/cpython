@@ -47,6 +47,14 @@ class TupleTest(seq_tests.CommonTest):
         self.assertTrue(not ())
         self.assertTrue((42, ))
 
+    def test_empty(self):
+        a = tuple()
+        b = ()
+        c = (,)
+        self.assertEqual(a, b)
+        self.assertEqual(b, c)
+        self.assertEqual(a, c)
+
     def test_len(self):
         super().test_len()
         self.assertEqual(len(()), 0)

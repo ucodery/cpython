@@ -340,25 +340,39 @@ fstring_compile_expr(Parser *p, const char *expr_start, const char *expr_end,
     Py_ssize_t len;
     const char *s;
     expr_ty result = NULL;
+    bool b = false;
 
     assert(expr_end >= expr_start);
     assert(*(expr_start-1) == '{');
     assert(*expr_end == '}' || *expr_end == '!' || *expr_end == ':' ||
            *expr_end == '=');
 
-    /* If the substring is all whitespace, it's an error.  We need to catch this
-       here, and not when we call PyParser_SimpleParseStringFlagsFilename,
-       because turning the expression '' in to '()' would go from being invalid
-       to valid. */
+    /* If the substring is all whitespace, it's an error.  If the substring is
+       a single ',', not including any whitespace, it's an error. We need to
+       catch this here, and not when we call
+       PyParser_SimpleParseStringFlagsFilename, because turning the expression
+       '' in to '()' or ',' in to '(,)' would go from being invalid to valid. */
     for (s = expr_start; s != expr_end; s++) {
         char c = *s;
+        if (c == ',') {
+            if (b) {
+                /* two ','s together is invalid but will not be made valid by
+                   wrapping in '()' */
+                break;
+            }
+            b = true;
+        }
         /* The Python parser ignores only the following whitespace
            characters (\r already is converted to \n). */
-        if (!(c == ' ' || c == '\t' || c == '\n' || c == '\f')) {
+        else if (!(c == ' ' || c == '\t' || c == '\n' || c == '\f')) {
             break;
         }
     }
     if (s == expr_end) {
+        if (b) {
+            RAISE_SYNTAX_ERROR("f-string: invalid syntax");
+            return NULL;
+        }
         RAISE_SYNTAX_ERROR("f-string: empty expression not allowed");
         return NULL;
     }
