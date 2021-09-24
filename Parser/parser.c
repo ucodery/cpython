@@ -13140,6 +13140,7 @@ slice_rule(Parser *p)
 }
 
 // atom:
+//     | '@@'
 //     | NAME
 //     | 'True'
 //     | 'False'
@@ -13169,6 +13170,30 @@ atom_rule(Parser *p)
     UNUSED(_start_lineno); // Only used by EXTRA macro
     int _start_col_offset = p->tokens[_mark]->col_offset;
     UNUSED(_start_col_offset); // Only used by EXTRA macro
+    { // '@@'
+        if (p->error_indicator) {
+            D(p->level--);
+            return NULL;
+        }
+        D(fprintf(stderr, "%*c> atom[%d-%d]: %s\n", p->level, ' ', _mark, p->mark, "'@@'"));
+        Token * _literal;
+        if (
+            (_literal = _PyPegen_expect_token(p, 54))  // token='@@'
+        )
+        {
+            D(fprintf(stderr, "%*c+ atom[%d-%d]: %s succeeded!\n", p->level, ' ', _mark, p->mark, "'@@'"));
+            _res = CHECK ( expr_ty , _PyPegen_replace_with_target ( p ) );
+            if (_res == NULL && PyErr_Occurred()) {
+                p->error_indicator = 1;
+                D(p->level--);
+                return NULL;
+            }
+            goto done;
+        }
+        p->mark = _mark;
+        D(fprintf(stderr, "%*c%s atom[%d-%d]: %s failed!\n", p->level, ' ',
+                  p->error_indicator ? "ERROR!" : "-", _mark, p->mark, "'@@'"));
+    }
     { // NAME
         if (p->error_indicator) {
             D(p->level--);

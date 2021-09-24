@@ -1506,6 +1506,39 @@ _PyPegen_singleton_seq(Parser *p, void *a)
     return seq;
 }
 
+/* Creates a copy of nearest target and returns it */
+expr_ty
+_PyPegen_replace_with_target(Parser *p)
+{
+    assert(p->mark >= 0);
+    Token *target_tok = NULL;
+    for (int m = p->mark - 1; m >= 0; m--) {
+        target_tok = p->tokens[m];
+        if (target_tok->type == NAME) {
+            break;
+        }
+    }
+
+    if (!target_tok) {
+        RAISE_SYNTAX_ERROR("@@ can only be used in assignment statements");
+        return NULL;
+    }
+
+    const char *target_str = PyBytes_AsString(target_tok->bytes);
+    if (!target_str) {
+        return NULL;
+    }
+
+    PyObject *target_name = PyUnicode_FromString(target_str);
+    if (!target_name) {
+        return NULL;
+    }
+
+    return _PyAST_Constant(target_name, NULL, target_tok->lineno,
+                           target_tok->col_offset, target_tok->end_lineno,
+                           target_tok->end_col_offset, p->arena);
+}
+
 /* Creates a copy of seq and prepends a to it */
 asdl_seq *
 _PyPegen_seq_insert_in_front(Parser *p, void *a, asdl_seq *seq)
