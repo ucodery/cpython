@@ -1511,10 +1511,33 @@ expr_ty
 _PyPegen_replace_with_target(Parser *p)
 {
     assert(p->mark >= 0);
+    int lhs_assignment = 0;
     Token *target_tok = NULL;
+    int t;
     for (int m = p->mark - 1; m >= 0; m--) {
-        target_tok = p->tokens[m];
-        if (target_tok->type == NAME) {
+        t = p->tokens[m]->type;
+        if (t == NEWLINE) {
+            if (lhs_assignment) {
+                RAISE_SYNTAX_ERROR("No target identifier could be found");
+                return NULL;
+            }
+            RAISE_SYNTAX_ERROR("@@ can only be used in assignment statements");
+            return NULL;
+        }
+
+        if (t == EQUAL || t== PLUSEQUAL || t== MINEQUAL || t== STAREQUAL ||
+            t == SLASHEQUAL || t== PERCENTEQUAL || t== AMPEREQUAL || t== VBAREQUAL ||
+            t == CIRCUMFLEXEQUAL || t == LEFTSHIFTEQUAL || t == RIGHTSHIFTEQUAL ||
+            t == DOUBLESTAREQUAL || t == DOUBLESLASHEQUAL || t == COLONEQUAL) {
+            if (lhs_assignment) {
+                RAISE_SYNTAX_ERROR("No target identifier could be found");
+                return NULL;
+            }
+            lhs_assignment = 1;
+        }
+
+        if (lhs_assignment && t == NAME) {
+            target_tok = p->tokens[m];
             break;
         }
     }
