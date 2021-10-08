@@ -203,7 +203,7 @@
 
 .. data:: REFLECT
 
-   Token value for ``"@@"``.
+   Token value for ``"<<<"``.
 
 .. data:: OP
 

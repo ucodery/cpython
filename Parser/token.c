@@ -175,7 +175,6 @@ PyToken_TwoChars(int c1, int c2)
     case '@':
         switch (c2) {
         case '=': return ATEQUAL;
-        case '@': return REFLECT;
         }
         break;
     case '^':
@@ -227,6 +226,7 @@ PyToken_ThreeChars(int c1, int c2, int c3)
         switch (c2) {
         case '<':
             switch (c3) {
+            case '<': return REFLECT;
             case '=': return LEFTSHIFTEQUAL;
             }
             break;

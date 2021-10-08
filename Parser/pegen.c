@@ -1521,7 +1521,7 @@ _PyPegen_replace_with_target(Parser *p)
                 RAISE_SYNTAX_ERROR("No target identifier could be found");
                 return NULL;
             }
-            RAISE_SYNTAX_ERROR("@@ can only be used in assignment statements");
+            RAISE_SYNTAX_ERROR("<<< can only be used in assignment statements");
             return NULL;
         }
 
@@ -1543,7 +1543,7 @@ _PyPegen_replace_with_target(Parser *p)
     }
 
     if (!target_tok) {
-        RAISE_SYNTAX_ERROR("@@ can only be used in assignment statements");
+        RAISE_SYNTAX_ERROR("<<< can only be used in assignment statements");
         return NULL;
     }
 

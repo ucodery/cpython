@@ -53,7 +53,7 @@ ATEQUAL                 '@='
 RARROW                  '->'
 ELLIPSIS                '...'
 COLONEQUAL              ':='
-REFLECT                 '@@'
+REFLECT                 '<<<'
 
 OP
 AWAIT
